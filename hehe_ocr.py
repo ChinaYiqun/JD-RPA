@@ -119,6 +119,6 @@ if __name__ == "__main__":
     # 示例 1：传输文件
     # response = CommonOcr(img_path=r'resource/left_1.png') # blank
     response = CommonOcr(img_path=r'resource/test/left_1.png')
-    result = response.get_text_position("jd_5e500c63eeec0")
+    result = response.get_text_position_center_list("jd_5e500c63eeec0")
     print(result)
 

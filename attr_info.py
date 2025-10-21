@@ -11,9 +11,6 @@ class NewMessageRequest(BaseModel):
     text:str
 
 
-
-
-
 class CloseMessageRequest(BaseModel):
     image_base64: str
     userid: str = None

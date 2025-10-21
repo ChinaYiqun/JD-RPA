@@ -8,7 +8,7 @@ from pic_utils import *
 from hehe_ocr import *
 import datetime
 import os
-
+from paddle_ocr import PaddleOCRSingleton
 def sanitize_filename(filename):
     """移除文件名中的非法字符，防止保存错误"""
     invalid_chars = r'[\\/:*?"<>|]'  # Windows系统不允许的文件名字符
@@ -25,9 +25,12 @@ def get_text_reg_position(image_base64,text,mark=False):
     os.makedirs("./text_reg_position", exist_ok=True)
     base64_to_img(image_base64, filename)
 
-    response = CommonOcr(img_path=filename)
-
-    result = response.get_text_position_center_list(text)
+    # response = CommonOcr(img_path=filename)
+    #
+    # result = response.get_text_position_center_list(text)
+    ocr = PaddleOCRSingleton()
+    ocr.recognize(image_path)
+    result = ocr.get_text_position_center_list(text)
 
     if not result:
         return PositionModel(type="None",target=[])

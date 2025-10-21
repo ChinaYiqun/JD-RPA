@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="京东RPA", description="")
 
+
+
+
+
 @app.get("/health", tags=["系统"])
 def health_check():
     """健康检查接口"""
@@ -18,7 +22,10 @@ def health_check():
           tags=["位置获取"],
           response_model=PositionModel,
           summary="获取位置坐标",
-          description='''image_base64 图片base64编码,text 文案信息''',
+          description='''image_base64 图片base64编码,text 文案信息
+          新消息定位传入：text (\d+)秒|(\d+)分|(\d{2}:\d{2})
+          用户定位传入：text 用户名
+          ''',
           response_description = '''position 位置坐标''')
 def api_get_text_reg_position(request: NewMessageRequest):
     """
@@ -45,7 +52,10 @@ async def get_layout():
     return generate_layout_json()
 
 
-
+if __name__ == '__main__':
+    # 启动FastAPI应用
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 # uvicorn main:app --host 0.0.0.0 --port 8000 --reload
