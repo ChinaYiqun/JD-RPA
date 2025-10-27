@@ -29,7 +29,7 @@ def get_text_reg_position(image_base64,text,mark=False):
     #
     # result = response.get_text_position_center_list(text)
     ocr = PaddleOCRSingleton()
-    ocr.recognize(image_path)
+    ocr.recognize(filename)
     result = ocr.get_text_position_center_list(text)
 
     if not result:
