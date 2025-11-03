@@ -107,7 +107,7 @@ class CommonOcr(object):
                             y = (position[1]+position[5])/2
                             position_list.append((int(x),int(y)))
             # 将   position_list   进行排序，先按照x 坐标 升序排序，再按照y 坐标 升序排序
-            position_list.sort(key=lambda x: (x[0], x[1]))
+            position_list.sort(key=lambda x: (x[1], x[0]))
             return position_list
         except json.JSONDecodeError:
             return None

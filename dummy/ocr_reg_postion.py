@@ -45,12 +45,12 @@ def get_text_reg_position(image_base64,text,mark=False,match_type = "contains"):
 
 
 if __name__ == '__main__':
-    image_path = r"D:\pycharmProject\JD-RPA\resource\test\zj.png"
+    image_path = r"D:\pycharmProject\JD-RPA\resource\test\left_6.png"
     image_base64 = image_to_base64(image_path)
     # text = "jd_5e500c63eeec0"
-    text = r"转接"
+    text = r"(\d+)秒|(\d+)分|(\d{2}:\d{2})"
     mark = True
-    position = get_text_reg_position(image_base64,text,mark,"equals")
+    position = get_text_reg_position(image_base64,text,mark,)
 
 
     print(position)

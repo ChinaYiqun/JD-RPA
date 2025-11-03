@@ -67,7 +67,7 @@ class PaddleOCRSingleton:
                     y = (bbox[0][1] + bbox[2][1]) / 2  # 左上角和右下角的y平均
                     position_list.append((int(x), int(y)))
 
-        position_list.sort(key=lambda x: (x[0], x[1]))
+        position_list.sort(key=lambda x: (x[1], x[0]))
         return position_list
 
 # 使用示例
