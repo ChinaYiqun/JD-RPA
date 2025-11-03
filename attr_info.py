@@ -9,6 +9,8 @@ from typing import List, Tuple
 class NewMessageRequest(BaseModel):
     image_base64: str
     text:str
+    match_type: str = "contains"
+
 
 
 class CloseMessageRequest(BaseModel):

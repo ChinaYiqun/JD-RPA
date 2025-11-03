@@ -40,19 +40,31 @@ class PaddleOCRSingleton:
 
 
 
-    def get_text_position_center_list(self, target_text):
+    def get_text_position_center_list(self, target_text,match_type='contains'):
         position_list = []
         result = self.result
         for line in result:
             for word_info in line:
                 bbox, (text, score) = word_info
-                if text is not None and re.findall(target_text, text):
-                    # bbox格式：[[x1,y1], [x2,y2], [x3,y3], [x4,y4]]（文本框的4个顶点）
-                    print(f"文本框坐标：{bbox}")
-                    print(f"识别文本：{text}，置信度：{score:.2f}\n")
-                    # 计算文本框中心坐标
-                    x = (bbox[0][0] + bbox[2][0]) / 2
-                    y = (bbox[0][1] + bbox[2][1]) / 2
+                if text is None:
+                    continue  # 跳过空文本
+                # 根据匹配方式判断是否符合条件
+                is_match = False
+                if match_type == 'contains':
+                    # 包含匹配：文本中存在目标子串（re.findall 非空）
+                    if re.findall(target_text, text):
+                        is_match = True
+                elif match_type == 'equals':
+                    # 精确匹配：文本与目标子串完全一致
+                    if text == target_text:
+                        is_match = True
+                else:
+                    raise ValueError(f"不支持的匹配方式：{match_type}，可选值为 'contains' 或 'exact'")
+
+                if is_match:
+                    # 计算文本框中心坐标（使用对角顶点求平均）
+                    x = (bbox[0][0] + bbox[2][0]) / 2  # 左上角(x1,y1)和右下角(x3,y3)的x平均
+                    y = (bbox[0][1] + bbox[2][1]) / 2  # 左上角和右下角的y平均
                     position_list.append((int(x), int(y)))
 
         position_list.sort(key=lambda x: (x[0], x[1]))

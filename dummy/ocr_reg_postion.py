@@ -13,7 +13,7 @@ def sanitize_filename(filename):
     """移除文件名中的非法字符，防止保存错误"""
     invalid_chars = r'[\\/:*?"<>|]'  # Windows系统不允许的文件名字符
     return re.sub(invalid_chars, '_', filename).strip()
-def get_text_reg_position(image_base64,text,mark=False):
+def get_text_reg_position(image_base64,text,mark=False,match_type = "contains"):
     """
     获取关闭消息按钮的位置
     :param image_base64: 图片的base64编码
@@ -30,7 +30,7 @@ def get_text_reg_position(image_base64,text,mark=False):
     # result = response.get_text_position_center_list(text)
     ocr = PaddleOCRSingleton()
     ocr.recognize(filename)
-    result = ocr.get_text_position_center_list(text)
+    result = ocr.get_text_position_center_list(text,match_type)
 
     if not result:
         return PositionModel(type="None",target=[])
@@ -45,10 +45,12 @@ def get_text_reg_position(image_base64,text,mark=False):
 
 
 if __name__ == '__main__':
-    image_path = "../resource/screenshot.png"
+    image_path = r"D:\pycharmProject\JD-RPA\resource\test\zj.png"
     image_base64 = image_to_base64(image_path)
     # text = "jd_5e500c63eeec0"
-    text = r"jd_"
+    text = r"转接"
     mark = True
-    position = get_text_reg_position(image_base64,text,mark)
+    position = get_text_reg_position(image_base64,text,mark,"equals")
+
+
     print(position)

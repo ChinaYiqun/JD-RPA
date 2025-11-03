@@ -40,7 +40,7 @@ def api_get_text_reg_position(request: NewMessageRequest):
     """
     if not decode_base64_image(request.image_base64):
         raise HTTPException(status_code=400, detail="无效的base64图片编码")
-    return get_text_reg_position(request.image_base64,request.text)
+    return get_text_reg_position(request.image_base64,request.text,request.match_type)
 
 @app.get("/layout",
          response_model=LayoutModel,
