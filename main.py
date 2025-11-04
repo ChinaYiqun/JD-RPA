@@ -1,16 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from attr_info import PositionModel, LayoutModel, NewMessageRequest, generate_layout_json
 from dummy.ocr_reg_postion import get_text_reg_position
+from myloger import setup_logger
 from pic_utils import decode_base64_image
-# 记录log
-import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+
+
+
 
 app = FastAPI(title="京东RPA", description="")
 
 
-
+logging = setup_logger("myname")
 
 
 @app.get("/health", tags=["系统"])
@@ -28,19 +28,15 @@ def health_check():
           ''',
           response_description = '''position 位置坐标''')
 def api_get_text_reg_position(request: NewMessageRequest):
-    """
-    获取文本在图片中的位置坐标
-
-    参数:
-    image_base64: 图片base64编码
-    text: 需精确匹配的目标文本
-
-    返回:
-    坐标元组 (x1, y1)，未找到返回 None
-    """
     if not decode_base64_image(request.image_base64):
         raise HTTPException(status_code=400, detail="无效的base64图片编码")
-    return get_text_reg_position(request.image_base64,request.text,request.match_type)
+    # 提取请求数据并排除image_base64字段后记录日志
+    request_data = dict(request)
+    del request_data['image_base64']
+    logging.info(f"get_position Request data : {request_data}")
+    result = get_text_reg_position(request.image_base64, request.text, request.match_type)
+    logging.info(f"get_position result data : {result}")
+    return result
 
 @app.get("/layout",
          response_model=LayoutModel,
@@ -51,11 +47,6 @@ def api_get_text_reg_position(request: NewMessageRequest):
 async def get_layout():
     return generate_layout_json()
 
-
-if __name__ == '__main__':
-    # 启动FastAPI应用
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 # uvicorn main:app --host 0.0.0.0 --port 8000 --reload

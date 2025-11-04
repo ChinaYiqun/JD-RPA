@@ -21,7 +21,8 @@ class PaddleOCRSingleton:
             self.ocr = PaddleOCR(
                 use_angle_cls=True,
                 lang="ch",  # 支持中文+英文
-                use_gpu=False  # 关闭GPU
+                use_gpu=False , # 关闭GPU
+                show_log = False
             )
 
     def recognize(self, img_path: str):

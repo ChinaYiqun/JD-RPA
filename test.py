@@ -4,33 +4,26 @@ import time
 
 import requests
 
-from pic_utils import mark_coordinate_on_image
-from pic_utils import image_to_base64
+# from pic_utils import mark_coordinate_on_image
+# from pic_utils import image_to_base64
 
 API_HOST = "http://127.0.0.1:8000"
 
 
 # API_HOST = "http://124.223.85.176:8000"
-def get_new_message_position(image_path, api_url=API_HOST + "/get_new_message_position"):
-    """测试聊天界面分析API"""
-    base64_image = image_to_base64(image_path)
-    if not base64_image:
-        return
 
-    # 准备请求数据
-    payload = {
-        "image_base64": base64_image
-    }
-
+def image_to_base64(image_path):
+    """将图片文件转换为base64编码字符串"""
     try:
-        response = requests.post(api_url, json=payload)
-        result = response.json()
-        print(json.dumps(result, indent=4, ensure_ascii=False))
-
-    except requests.exceptions.RequestException as e:
-        print(f"请求发生错误: {str(e)}")
-    except json.JSONDecodeError as e:
-        print(f"解析响应JSON时出错: {str(e)}")
+        with open(image_path, "rb") as image_file:
+            base64_str = base64.b64encode(image_file.read()).decode('utf-8')
+            base64_str = f"data:image/jpeg;base64,{base64_str}"
+            if ',' in base64_str:
+                base64_str = base64_str.split(',')[1]
+            return base64_str
+    except Exception as e:
+        print(f"转换图片为base64时出错: {str(e)}")
+        return None
 
 
 def layout(api_url=API_HOST + "/layout"):
@@ -50,7 +43,7 @@ def layout(api_url=API_HOST + "/layout"):
 #     time.sleep(0.5)
 
 
-def get_position(image_path, text, api_url=API_HOST + "/get_position"):
+def get_position(image_path, text, match_type,api_url=API_HOST + "/get_position"):
     """测试聊天界面分析API"""
     base64_image = image_to_base64(image_path)
     if not base64_image:
@@ -59,7 +52,8 @@ def get_position(image_path, text, api_url=API_HOST + "/get_position"):
     # 准备请求数据
     payload = {
         "image_base64": base64_image,
-        "text": text
+        "text": text,
+        "match_type" :match_type
     }
 
     try:
@@ -80,7 +74,7 @@ import re
 # result = re.findall(pattern, text)
 # print(result)
 # get_position(r"D:\pycharmProject\JD-RPA\resource\test\zj.png", "(\d+)(秒|分)")
-get_position(r"D:\pycharmProject\JD-RPA\resource\test\zj.png", "转接")
+get_position(r"D:\pycharmProject\JD-RPA\resource\test\0_screenshot.png", "指定咨询组","equals")
 
 # 遍历 resource/test 图片，获取图片文件名
 # import os
