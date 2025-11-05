@@ -34,7 +34,7 @@ def api_get_text_reg_position(request: NewMessageRequest):
     request_data = dict(request)
     del request_data['image_base64']
     logging.info(f"get_position Request data : {request_data}")
-    result = get_text_reg_position(request.image_base64, request.text, request.match_type)
+    result = get_text_reg_position(request.image_base64, request.text, request.match_type,True)
     logging.info(f"get_position result data : {result}")
     return result
 
