@@ -1,5 +1,5 @@
-paddlepaddle==2.5.2
+#paddlepaddle==2.5.2
 paddleocr==2.8.1
-pillow==11.2.1
+#pillow==11.2.1
 fastapi
 uvicorn

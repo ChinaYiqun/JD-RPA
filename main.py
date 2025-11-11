@@ -49,4 +49,4 @@ async def get_layout():
 
 
 
-# uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+# uvicorn main:app --host 0.0.0.0 --port 6666 --reload

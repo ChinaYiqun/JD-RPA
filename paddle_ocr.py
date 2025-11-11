@@ -22,7 +22,8 @@ class PaddleOCRSingleton:
                 use_angle_cls=True,
                 lang="ch",  # 支持中文+英文
                 use_gpu=False , # 关闭GPU
-                show_log = False
+                show_log = False,
+                ir_optim = False
             )
 
     def recognize(self, img_path: str):

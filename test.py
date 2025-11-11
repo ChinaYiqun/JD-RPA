@@ -4,10 +4,10 @@ import requests
 
 
 
-API_HOST = "http://127.0.0.1:8000"
+API_HOST = "http://127.0.0.1:6666"
 
 
-#API_HOST = "http://124.223.85.176:8000"
+#API_HOST = "http://124.223.85.176:6666"
 
 def image_to_base64(image_path):
     """将图片文件转换为base64编码字符串"""
@@ -35,7 +35,7 @@ def layout(api_url=API_HOST + "/layout"):
         print(f"解析响应JSON时出错: {str(e)}")
 
 
-def get_position(image_path, text, match_type ,api_url=API_HOST + "/get_position"):
+def get_position(image_path, text ,api_url=API_HOST + "/get_position"):
     """测试聊天界面分析API"""
     base64_image = image_to_base64(image_path)
     if not base64_image:
@@ -45,7 +45,7 @@ def get_position(image_path, text, match_type ,api_url=API_HOST + "/get_position
     payload = {
         "image_base64": base64_image,
         "text": text,
-        "match_type" :match_type
+        #"match_type" :match_type
     }
 
     try:
@@ -59,9 +59,9 @@ def get_position(image_path, text, match_type ,api_url=API_HOST + "/get_position
     except json.JSONDecodeError as e:
         print(f"解析响应JSON时出错: {str(e)}")
 # 新消息定位
-get_position(r"D:\pycharmProject\JD-RPA\resource\test\left_3.png","(\d+)秒|(\d+)分|(\d{2}:\d{2})","contains")
+get_position(r"resource/test/left_3.png","(\d+)秒|(\d+)分|(\d{2}:\d{2})",)
 # 用户名称定位
-get_position(r"D:\pycharmProject\JD-RPA\resource\test\left_3.png","jd_563eb175d499a","contains")
+# get_position(r"D:\pycharmProject\JD-RPA\resource\test\left_3.png","jd_563eb175d499a","contains")
 
 # 转接系列操作参考
 # get_position(r"D:\pycharmProject\JD-RPA\resource\test\0_screenshot.png", "指定咨询组","equals")
